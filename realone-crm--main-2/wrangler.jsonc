@@ -10,7 +10,7 @@
     "run_worker_first": ["/api/*"]
   },
   "vars": {
-    "BACKEND_URL": "https://realone-crm.onrender.com"
+    "BACKEND_URL": "https://test-file-tne3.onrender.com"
   },
   "observability": {
     "enabled": true

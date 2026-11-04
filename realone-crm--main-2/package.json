@@ -1,0 +1,13 @@
+{
+  "name": "realone-crm",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --prefix frontend",
+    "deploy": "npm run build && npx wrangler deploy",
+    "preview": "npm run preview --prefix frontend"
+  },
+  "devDependencies": {
+    "wrangler": "^4.154.0"
+  }
+}

@@ -73,6 +73,13 @@ async def startup_event():
     # Launch background auto-sync task for Meta leads
     asyncio.create_task(auto_meta_lead_sync_worker())
 
+@app.get("/")
+def root():
+    return {
+        "status": "ok",
+        "message": "Real One CRM backend is running"
+    }
+
 
 @app.get("/health")
 def health_check():

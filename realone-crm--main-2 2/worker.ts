@@ -1,4 +1,3 @@
-
 export interface Env {
   ASSETS: Fetcher;
   BACKEND_URL: string;
@@ -8,7 +7,6 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    // Proxy API and health requests to Render
     const isApi = url.pathname.startsWith("/api/");
     const isHealth = url.pathname === "/health";
 
@@ -43,13 +41,16 @@ export default {
         );
 
         const responseHeaders = new Headers(response.headers);
+
         responseHeaders.set("Cache-Control", "no-store");
         responseHeaders.set("X-CRM-Proxy", "cloudflare-worker");
 
         return new Response(response.body, {
           status: response.status,
+          statusText: response.statusText,
           headers: responseHeaders
         });
+
       } catch (error) {
         return Response.json(
           {
@@ -61,14 +62,14 @@ export default {
       }
     }
 
-    // Static assets
     if (url.pathname.includes(".")) {
       return env.ASSETS.fetch(request);
     }
 
-    // SPA fallback
+    const indexUrl = new URL("/index.html", request.url);
+
     return env.ASSETS.fetch(
-      new Request(new URL("/index.html", request.url), request)
+      new Request(indexUrl.toString(), request)
     );
   }
 };

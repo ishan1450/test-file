@@ -40,6 +40,12 @@ export default {
           })
         );
 
+        console.log("Backend status:", response.status);
+        console.log("Backend challenge:", response.headers.get("cf-mitigated"));
+        console.log("Backend server:", response.headers.get("server"));
+        console.log("Backend Ray ID:", response.headers.get("cf-ray"));
+
+
         const responseHeaders = new Headers(response.headers);
 
         responseHeaders.set("Cache-Control", "no-store");

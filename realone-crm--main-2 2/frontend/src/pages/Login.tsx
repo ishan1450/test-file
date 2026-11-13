@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Lock, Mail, AlertCircle, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { ApiError, waitForBackendReady } from '../services/api';
+import { ApiError } from '../services/api';
 
 export const Login: React.FC = () => {
   const { login } = useAuth();
@@ -23,11 +23,13 @@ export const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
-      await waitForBackendReady(setLoadingMessage);
       setLoadingMessage('Signing in…');
+
       await login({ email, password });
-      navigate('/dashboard');
-    } catch (err: any) {
+
+      navigate('/dashboard'); 
+    }
+    catch (err: any) {
       if (err instanceof ApiError) {
         if (err.data?.detail?.toLowerCase().includes('pending approval')) {
           navigate('/pending-approval');

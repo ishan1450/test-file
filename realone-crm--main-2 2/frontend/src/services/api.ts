@@ -1,4 +1,8 @@
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '') + '/api/v1';
+const BACKEND_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL || ''
+).replace(/\/+$/, '');
+
+const API_BASE_URL = `${BACKEND_BASE_URL}/api/v1`;
 
 export class ApiError extends Error {
   status: number;
@@ -42,7 +46,7 @@ export async function waitForBackendReady(
     onStatus?.(attempt === 1 ? 'Connecting to the server…' : 'The server is waking up. Please wait…');
 
     try {
-      const response = await fetch('/health', {
+      const response = await fetch(`${BACKEND_BASE_URL}/health`, {
         method: 'GET',
         headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' },
         cache: 'no-store',
